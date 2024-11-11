@@ -1,9 +1,121 @@
-import example.pepita
+import paciente.*
+import aparatos.*
 
-describe "group of tests for pepita" {
 
-  test "pepita has initial energy" {
-    assert.equals(100, pepita.energy())
-  }
+const leonardo = new Paciente(edad = 40, fuerzaMuscular = 20, nivelDolor = 10)
+const milena = new Paciente(edad = 3, fuerzaMuscular = 50, nivelDolor = 30)
+const magneto = new Magneto()
+const bici = new Bicicleta()
+const miniTramp = new Minitramp()
+const bici2 = new Bicicleta()
+ 
+ // TEST PARTE 3
+const nicolas = new Resistente(edad = 40, fuerzaMuscular = 20, nivelDolor = 10)
+const victoria = new Caprichoso(edad = 30, fuerzaMuscular = 40, nivelDolor = 10)
+const julian = new Caprichoso(edad = 20, fuerzaMuscular = 50, nivelDolor = 54)
+const zoe = new RapidaRecuperacion(edad = 50, fuerzaMuscular = 40, nivelDolor = 14)
+
+
+test "leonardo puede usar los 3 aparatos"{
+  assert.that(leonardo.puedoUsar(magneto))
+  assert.that(leonardo.puedoUsar(bici))
+  assert.that(leonardo.puedoUsar(miniTramp))
 
 }
+test "milena solo puede usar magneto"{
+
+  assert.that(milena.puedoUsar(magneto))
+  assert.notThat(milena.puedoUsar(bici))
+  assert.notThat(milena.puedoUsar(miniTramp))
+
+}
+
+test "nivel de dolor baja por usar magneto en leonardo"{
+
+  leonardo.usarAparato(magneto)
+  assert.equals(9, leonardo.nivelDolor())
+}
+
+test "nivel de dolor baja por usar magneto en milena"{
+
+  milena.usarAparato(magneto)
+  assert.equals(27, milena.nivelDolor())
+}
+
+test "nivel de dolor baja por usar bici en leonardo"{
+
+  leonardo.usarAparato(bici)
+  assert.equals(6, leonardo.nivelDolor())
+  assert.equals(23, leonardo.fuerzaMuscular())
+
+}
+test "leonardo usa el minitramp"{
+
+  leonardo.usarAparato(miniTramp)
+  assert.equals(24, leonardo.fuerzaMuscular())
+  
+}
+
+test "rutina de Leonardo"{
+  leonardo.agregarALaRutina(bici)
+  leonardo.agregarALaRutina(miniTramp)
+  leonardo.agregarALaRutina(bici)
+  leonardo.agregarALaRutina(magneto)
+  leonardo.hacerRutina()
+  assert.equals(1.8, leonardo.nivelDolor())
+  
+}
+test "milena no puede hacer rutina"{
+  milena.agregarALaRutina(magneto)
+  milena.agregarALaRutina(bici)
+  assert.notThat(milena.puedoHacerRutina())
+  
+}
+
+test "Nicolas y sus test parte 3 "{
+  nicolas.agregarALaRutina(bici)
+  nicolas.agregarALaRutina(miniTramp)
+  nicolas.agregarALaRutina(bici)
+  nicolas.agregarALaRutina(magneto)
+  nicolas.hacerRutina()
+  assert.that(nicolas.puedoHacerRutina())
+  assert.equals(1.8, nicolas.nivelDolor())
+  assert.equals(34, nicolas.fuerzaMuscular())
+
+
+}
+test "Victoria y su rutina que no puede hacer"{
+  victoria.agregarALaRutina(bici)
+  victoria.agregarALaRutina(miniTramp)
+  victoria.agregarALaRutina(bici)
+  victoria.agregarALaRutina(magneto)
+  assert.notThat(victoria.puedoHacerRutina())
+}
+
+test "La rutina de julian "{
+  bici.cambiarColor(rojo)
+  magneto.cambiarColor(verde)
+  julian.agregarALaRutina(bici)
+  julian.agregarALaRutina(magneto)
+  julian.agregarALaRutina(bici)
+  julian.hacerRutina()
+  assert.that(julian.puedoHacerRutina())
+  assert.equals(29.3, julian.nivelDolor())
+  assert.equals(62, julian.fuerzaMuscular())
+}
+
+test "La rutina de zoe"{
+  zoe.agregarALaRutina(bici)
+  zoe.agregarALaRutina(miniTramp)
+  zoe.agregarALaRutina(bici)
+  zoe.agregarALaRutina(magneto)
+  zoe.cambiarValorConfig(2)
+  zoe.hacerRutina()
+  assert.that(zoe.puedoHacerRutina())
+  assert.equals(3.4, zoe.nivelDolor())
+  assert.equals(51,  zoe.fuerzaMuscular())
+}
+
+
+
+
